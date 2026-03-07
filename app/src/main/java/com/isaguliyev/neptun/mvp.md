@@ -1,27 +1,16 @@
-This is simple single activity (most likely to be single fragment) native android application that will enable to automate logging in our university's system named Neptun.
+This is a simple single activity native Android application that will automate logging in to our university's system named Neptun.
 
-Initially, there is 2 text fields if we try to open neptun via web.
-First one is for neptun username and second one is for password.
+The login page is at `https://neptun.elte.hu/Account/Login`. It has two text fields for username and password, and a login button. After tapping the login button, it asks for an OTP code. There is also a button to generate a new OTP pairing key that is a long string. The user enters this pairing key once along with their credentials into our app.
 
-https://neptun.elte.hu/Account/Login
+So the app has three input fields and an OK button. User enters username, password and pairing key. We cache the pairing key locally so we can generate the correct OTP code whenever needed, every 30 seconds, using the TOTP algorithm (same as Google Authenticator).
 
-This is the url of login page.
-There is a login button next to these text fields. 
-After tapping on this button, it asks for OTP.
-But there is also a button that asks for new OTP pairing. If we tap on that button we can generate new otp pairing. This is a code in large String format.
-I consider that user themselves will enter this pairing with login credentials. After knowing them, we can autogenerate that required OTP codes every 30 seconds. 
+After the user taps OK, we are done with the input UI. The next screen is simply an AppBar and a WebView. The AppBar will have a button to clear the session and remove the cached pairing key.
 
-After successfully entering generated OTP code, Neptun main page appear. There is a tab "Student Web" where we aim to go. 
-The url of Student Web is: https://neptun.elte.hu/ToNeptunWeb/ToNeptunHWeb
+Now the automation part happens entirely inside the WebView using `WebViewClient` and `evaluateJavascript`. There is no need for any external tool. The flow is:
 
-After clicking on this tab neptun dashboard has been opened: https://hallgato5.neptun.elte.hu/dashboard
+1. WebView opens the login page
+2. We detect the page via `onPageFinished` and auto-fill username and password, then click the login button
+3. When the OTP page appears, we generate the OTP from the cached pairing key and auto-fill it, then submit
+4. After successful login, we navigate to Student Web at `https://neptun.elte.hu/ToNeptunWeb/ToNeptunHWeb` which redirects to the dashboard at `https://hallgato5.neptun.elte.hu/dashboard`
 
-So given flow and Nagi's desktop app, this mobile app will be simple. Just three fields and OK button.
-User will enter username, password and pairing code.
-Then we cache the pairing code and be able to generate OTP whenever we want.
-
-After user accept, we have done with app's user interface. 
-The next page is AppBar and WebView. App bar is used for remove session/ pairing key. 
-I'll use Appium (more precisely, I intended to use it, I don't know technical capabilities of it at this moment) for automation.
-That's it.
-
+For OTP generation inside the Android app, we use the `dev.samstevens.totp` Kotlin library. This replaces my earlier idea of using Appium — Appium is actually an external testing tool, not something that runs inside your app. Everything we need is already built into Android's WebView APIs.
