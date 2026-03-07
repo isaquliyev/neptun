@@ -12,6 +12,8 @@ securityCrypto = "1.1.0-alpha06"
 lifecycleViewmodelCompose = "2.10.0"
 totp = "1.7.1"
 commonsCodec = "1.16.0"
+rive = "11.1.0"
+startup = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,6 +36,8 @@ androidx-security-crypto = { group = "androidx.security", name = "security-crypt
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 totp = { group = "dev.samstevens.totp", name = "totp", version.ref = "totp" }
 commons-codec = { group = "commons-codec", name = "commons-codec", version.ref = "commonsCodec" }
+rive-android = { group = "app.rive", name = "rive-android", version.ref = "rive" }
+androidx-startup-runtime = { group = "androidx.startup", name = "startup-runtime", version.ref = "startup" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

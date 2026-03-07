@@ -56,6 +56,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.totp)
     implementation(libs.commons.codec)
+    implementation(libs.rive.android)
+    implementation(libs.androidx.startup.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
