@@ -54,6 +54,8 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.security.crypto)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.totp)
+    implementation(libs.commons.codec)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -28,7 +28,7 @@ import com.isaguliyev.neptun.ui.theme.NeptunTheme
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: (pairingKey: String) -> Unit,
+    onLoginSuccess: (username: String, password: String, pairingKey: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var username by remember { mutableStateOf("") }
@@ -82,7 +82,7 @@ fun LoginScreen(
         Button(
             onClick = {
                 focusManager.clearFocus()
-                onLoginSuccess(pairingKey)
+                onLoginSuccess(username, password, pairingKey)
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -95,6 +95,6 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     NeptunTheme {
-        LoginScreen(onLoginSuccess = {})
+        LoginScreen(onLoginSuccess = { _, _, _ -> })
     }
 }

@@ -37,7 +37,10 @@ class MainActivity : ComponentActivity() {
             NeptunTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     if (isLoggedIn) {
-                        MainScreen(modifier = Modifier.padding(innerPadding))
+                        MainScreen(
+                            viewModel = viewModel,
+                            modifier = Modifier.padding(innerPadding)
+                        )
                     } else {
                         LoginScreen(
                             onLoginSuccess = viewModel::onLoginSuccess,

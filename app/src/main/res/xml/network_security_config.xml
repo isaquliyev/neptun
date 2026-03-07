@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Trusts system CAs and user-added CAs (e.g. university proxy / corporate SSL inspection).
+  Required when the device is on a network that uses a custom CA for HTTPS;
+  otherwise WebView may fail with SSL handshake (net_error -202) and show a blank screen.
+-->
+<network-security-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
