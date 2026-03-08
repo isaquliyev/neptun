@@ -11,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.isaguliyev.neptun.MainViewModel
 import com.isaguliyev.neptun.web.NeptunWebViewClient
+import android.os.Build
 import android.webkit.WebView
+import android.webkit.WebSettings
 import androidx.compose.ui.viewinterop.AndroidView
-
-private const val LOGIN_URL = "https://neptun.elte.hu/Account/Login"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,12 +43,29 @@ fun MainScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding),
-                factory = { context ->
-                    WebView(context).apply {
+                factory = { ctx ->
+                    WebView(ctx).apply {
                         settings.javaScriptEnabled = true
                         settings.domStorageEnabled = true
+
+                        // Desktop mode
+                        settings.userAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+                        settings.useWideViewPort = true
+                        settings.loadWithOverviewMode = true
+
+                        // Allow user to zoom in
+                        settings.setSupportZoom(true)
+                        settings.builtInZoomControls = true
+                        settings.displayZoomControls = false
+
+                        // Force override the page's own viewport meta tag
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING
+                        }
+
+                        // WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
                         webViewClient = NeptunWebViewClient(username, password, pairingKey)
-                        loadUrl(LOGIN_URL)
+                        loadUrl("https://neptun.elte.hu/Account/Login")
                     }
                 }
             )

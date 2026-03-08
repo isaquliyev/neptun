@@ -84,6 +84,21 @@ class NeptunWebViewClient(
             safeUrl == ROOT_URL -> {
                 view.postDelayed({ view.loadUrl(STUDENT_WEB_URL) }, 500)
             }
+            safeUrl.contains("hallgato5.neptun.elte.hu") -> {
+                view.evaluateJavascript("""
+                    var meta = document.querySelector('meta[name="viewport"]');
+                    if (meta) {
+                        meta.content = 'width=1280';
+                        console.log('Viewport overridden to 1280px');
+                    } else {
+                        var newMeta = document.createElement('meta');
+                        newMeta.name = 'viewport';
+                        newMeta.content = 'width=1280';
+                        document.head.appendChild(newMeta);
+                        console.log('Viewport meta created at 1280px');
+                    }
+                """.trimIndent(), null)
+            }
         }
     }
 
