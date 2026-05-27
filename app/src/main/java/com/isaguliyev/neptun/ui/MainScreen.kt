@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.isaguliyev.neptun.MainViewModel
 import com.isaguliyev.neptun.web.NeptunWebViewClient
+import com.isaguliyev.neptun.web.goBackSkippingAuthRedirects
+import com.isaguliyev.neptun.web.hasUserBackTarget
 import android.os.Build
 import android.webkit.WebChromeClient
 import android.webkit.WebView
@@ -37,8 +39,8 @@ fun MainScreen(
     val shouldHandleBack = username != null && password != null && pairingKey != null && canGoBack
 
     BackHandler(enabled = shouldHandleBack) {
-        webViewRef?.goBack()
-        canGoBack = webViewRef?.canGoBack() == true
+        webViewRef?.goBackSkippingAuthRedirects()
+        canGoBack = webViewRef?.hasUserBackTarget() == true
     }
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -72,7 +74,7 @@ fun MainScreen(
                         webChromeClient = object : WebChromeClient() {
                             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                                 super.onProgressChanged(view, newProgress)
-                                canGoBack = view?.canGoBack() == true
+                                canGoBack = view?.hasUserBackTarget() == true
                             }
                         }
                         loadUrl("https://neptun.elte.hu/Account/Login")
@@ -80,7 +82,7 @@ fun MainScreen(
                 },
                 update = { webView ->
                     webViewRef = webView
-                    canGoBack = webView.canGoBack()
+                    canGoBack = webView.hasUserBackTarget()
                 }
             )
         } else {

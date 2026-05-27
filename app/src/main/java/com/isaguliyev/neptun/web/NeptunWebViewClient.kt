@@ -34,6 +34,8 @@ class NeptunWebViewClient(
     private val pairingKey: String
 ) : WebViewClient() {
 
+    private var loginHistoryCleared = false
+
     @SuppressLint("WebViewClientOnReceivedSslError")
     override fun onReceivedSslError(
         view: WebView,
@@ -82,9 +84,19 @@ class NeptunWebViewClient(
                 view.postDelayed({ fillLogin(view) }, 500)
             }
             safeUrl == ROOT_URL -> {
-                view.postDelayed({ view.loadUrl(STUDENT_WEB_URL) }, 500)
+                val studentUrl = escapeForJs(STUDENT_WEB_URL)
+                view.postDelayed({
+                    view.evaluateJavascript(
+                        "window.location.replace('$studentUrl');",
+                        null
+                    )
+                }, 500)
             }
             safeUrl.contains("hallgato5.neptun.elte.hu") -> {
+                if (!loginHistoryCleared) {
+                    loginHistoryCleared = true
+                    view.clearHistory()
+                }
                 view.evaluateJavascript("""
                     var meta = document.querySelector('meta[name="viewport"]');
                     if (meta) {
