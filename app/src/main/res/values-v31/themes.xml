@@ -2,5 +2,9 @@
 <resources>
     <style name="Theme.Neptun" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowSplashScreenBackground">@drawable/splash_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 </resources>
